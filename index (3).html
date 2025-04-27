@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2A@CasinoSlot</title>
+    <link href="https://fonts.googleapis.com/css?family=Orbitron:900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Orbitron', "Segoe UI", "Arial", sans-serif;
+            background: linear-gradient(135deg, #18172a 0%, #1e1e2f 100%);
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: stretch;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 25% 30%, #48a9fe33 0 15%, #191970 60%, #000 100%);
+            z-index: 0;
+        }
+        .particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .casino-header {
+            width: 100vw;
+            padding: 32px 0 16px 0;
+            text-align: center;
+            z-index: 10;
+        }
+        .casino-title {
+            font-size: 3.3em;
+            letter-spacing: 0.22em;
+            background: linear-gradient(90deg, #ffe082 20%, #48a9fe 60%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 24px #ffe082cc, 0 0 12px #48A9FE;
+            font-weight: 900;
+            margin: 0;
+            animation: neon-glow 1.8s infinite alternate;
+        }
+        @keyframes neon-glow {
+            from {
+                text-shadow: 0 0 16px #ffe082cc, 0 0 24px #48A9FEbb;
+            }
+            to {
+                text-shadow: 0 0 40px #ffe082cc, 0 0 56px #48A9FE;
+            }
+        }
+        .casino-subtitle {
+            color: #fff9;
+            font-size: 1.1em;
+            letter-spacing: 0.13em;
+            margin-bottom: 12px;
+        }
+        .main-area {
+            flex: 1 1 auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            position: relative;
+            z-index: 2;
+        }
+        .slot-machine {
+            background: linear-gradient(120deg,#25253c 70%,#263d61 100%);
+            padding: 68px 60px 48px 60px;
+            border-radius: 54px 54px 48px 48px / 48px 48px 36px 36px;
+            box-shadow:
+                0 0 40px 16px #191970,
+                0 0 0 16px #48A9FE22,
+                0 40px 120px 32px #000b;
+            border: 8px solid #ffd700;
+            min-width: 540px;
+            max-width: 90vw;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .slot-machine::after {
+            content: "";
+            position: absolute;
+            left: 50%; top: -34px;
+            transform: translateX(-50%);
+            width: 83%;
+            height: 22px;
+            border-radius: 22px;
+            background: linear-gradient(90deg, #ffe08277, #3ee9ff77 60%, #ffe08277);
+            filter: blur(7px);
+            z-index: 2;
+            pointer-events: none;
+        }
+        /* サイドバーをLEDライト風に */
+        .side-bar {
+            position: absolute;
+            top: 70px;
+            bottom: 70px;
+            width: 18px;
+            border-radius: 16px;
+            background: linear-gradient(90deg, #ffefba 20%, #48A9FE 80%);
+            box-shadow: 0 0 32px 6px #48A9FEbb;
+            z-index: 10;
+        }
+        .side-bar.left {left: -34px;}
+        .side-bar.right {right: -34px;}
+        /* スロット上部LEDランプ群 */
+        .slot-top-lamps {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            position: absolute;
+            left: 0; right: 0; top: -52px;
+            z-index: 20;
+        }
+        .lamp {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 40% 35%, #fff8 0%, #eee 50%, #aaa 100%);
+            box-shadow: 0 0 18px 6px #fff8;
+            border: 3px solid #fff4;
+            animation: lamp-blink 1s infinite alternate;
+        }
+        .lamp.red { background: radial-gradient(circle at 40% 35%, #fff 0%, #ff4444 80%, #900 100%);}
+        .lamp.yellow { background: radial-gradient(circle at 40% 35%, #fff 0%, #ffe082 80%, #b59d00 100%);}
+        .lamp.green { background: radial-gradient(circle at 40% 35%, #fff 0%, #82ff82 80%, #119d11 100%);}
+        .lamp.blue { background: radial-gradient(circle at 40% 35%, #fff 0%, #48a9fe 80%, #004e9d 100%);}
+        @keyframes lamp-blink {
+            0% { filter: brightness(0.7); }
+            100% { filter: brightness(1.5); }
+        }
+        /* リール3つ＋ボタン横並び */
+        .reels-area {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            gap: 36px;
+        }
+        .reels {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            margin-bottom: 12px;
+        }
+        .reel-container {
+            width: 108px;
+            height: 232px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 35px;
+            background: linear-gradient(160deg, #232526 60%, #263d61 100%);
+            border: 5px solid #ffd700;
+            box-shadow: 0 10px 40px 0 #f5b04233, 0 0 0 10px #48A9FE33 inset;
+            outline: 2px solid #ffe08266;
+            outline-offset: 4px;
+            transition: box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        .reel-container.win {
+            box-shadow: 0 0 44px 8px #ffe082, 0 0 54px 12px #48A9FE;
+            border-color: #ffe082;
+            animation: glow 1s infinite alternate;
+        }
+        .reel-container::before {
+            content: "";
+            pointer-events: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 32px;
+            background: linear-gradient(120deg, #fff6 20%, #fff2 50%, #fff0 80%);
+            z-index: 3;
+        }
+        .reel {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            will-change: transform;
+            position: relative;
+        }
+        /* 回転中は光の帯 */
+        .reel.spinning::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0; top: 15%;
+            height: 32px;
+            background: linear-gradient(90deg, #ffe08255 0, #fff9 60%, #ffe08222 100%);
+            filter: blur(4px);
+            opacity: 0.7;
+            pointer-events: none;
+            animation: slot-flash-move 0.28s linear infinite;
+            z-index: 4;
+        }
+        @keyframes slot-flash-move {
+            0% { top: 15%; opacity: 0.7;}
+            100% { top: 70%; opacity: 0.2;}
+        }
+        /* シンボルの残像エフェクト */
+        .reel.spinning .symbol {
+            filter: blur(2.7px) brightness(1.35) drop-shadow(0 0 16px #ffe082cc);
+            opacity: 0.72;
+            transition: filter 0.17s, opacity 0.17s;
+        }
+        .reel:not(.spinning) .symbol {
+            filter: none;
+            opacity: 1;
+            transition: filter 0.2s, opacity 0.17s;
+        }
+        .reel.stopping {
+            animation: reel-bounce 0.3s cubic-bezier(.7,-0.2,.4,1.7) 1;
+        }
+        @keyframes reel-bounce {
+            0% { transform: translateY(-10px);}
+            55% { transform: translateY(6px);}
+            80% { transform: translateY(-3px);}
+            100% { transform: translateY(0);}
+        }
+        .symbol {
+            width: 100%;
+            height: 78px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3.1em;
+            color: #fff;
+            text-shadow: 0 6px 16px #000c, 0 0 12px #ffe;
+            user-select: none;
+            filter: drop-shadow(0 0 7px #ffefba99);
+            background: linear-gradient(120deg, #fff4 60%, #ffe08233 100%);
+            border-radius: 18px;
+            border-bottom: 2px solid #ffe08266;
+            box-shadow: 0 2px 12px #ffe08288, 0 0 20px #ffd70022;
+            transition: background 0.18s, color 0.18s;
+        }
+        .symbol.win {
+            background: linear-gradient(90deg, #ffe082 60%, #fff 100%);
+            color: #191970;
+            filter: drop-shadow(0 0 36px #fff4a0) drop-shadow(0 0 18px #ffe082);
+            animation: win-pop 0.9s cubic-bezier(.8,-0.4,.2,1.4) alternate 2;
+            box-shadow: 0 0 44px 4px #ffe082cc, 0 0 60px 8px #48A9FEbb;
+        }
+        .lever-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-end;
+            margin-left: 16px;
+        }
+        .lever {
+            position: relative;
+            width: 48px;
+            height: 180px;
+            background: none;
+            z-index: 30;
+            cursor: pointer;
+            margin-bottom: 12px;
+            margin-right: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .lever .shaft {
+            width: 14px;
+            height: 130px;
+            background: linear-gradient(160deg, #aaa 60%, #fff 100%);
+            margin: 0 auto;
+            border-radius: 7px;
+            box-shadow: 0 8px 24px 0 #0007;
+        }
+        .lever .knob {
+            width: 48px;
+            height: 48px;
+            background: radial-gradient(circle at 40% 35%, #fff9c2 0%, #ffe082 60%, #f5b042 100%, #333 120%);
+            border-radius: 50%;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 40px 6px #ffe082cc, 0 0 18px 2px #48A9FE77;
+            margin: 0 auto;
+            margin-top: -5px;
+            transition: box-shadow 0.15s, transform 0.15s;
+            animation: lever-glow 2s infinite alternate;
+        }
+        .lever:active .knob {
+            box-shadow: 0 0 50px 16px #ffe082dc, 0 0 6px 0 #000d;
+            transform: scale(0.93) translateY(8px);
+        }
+        @keyframes lever-glow {
+            from { box-shadow: 0 0 24px 6px #ffe08288, 0 0 8px 2px #48A9FE33; }
+            to   { box-shadow: 0 0 44px 12px #ffe082cc, 0 0 24px 8px #48A9FEaa; }
+        }
+        .win-message {
+            color: #fff;
+            margin: 36px auto 0 auto;
+            text-align: center;
+            font-size: 2.2em;
+            letter-spacing: 0.14em;
+            font-family: 'Orbitron', 'Arial Black', system-ui, sans-serif;
+            opacity: 1;
+            font-weight: bold;
+            display: none;
+            text-shadow: 0 0 24px #ffe082, 0 0 10px #007fff;
+            animation: fadeIn 1s;
+        }
+        .win-message.show {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.85);}
+            to   { opacity: 1; transform: scale(1);}
+        }
+        @keyframes win-pop {
+            0%   { transform: scale(1);}
+            60%  { transform: scale(1.36) rotate(-5deg);}
+            100% { transform: scale(1.12) rotate(2deg);}
+        }
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 40px 12px #ffe082, 0 0 80px 18px #48A9FE;
+            }
+            100% {
+                box-shadow: 0 0 60px 18px #48A9FE, 0 0 120px 32px #ffe082;
+            }
+        }
+        .casino-footer {
+            width: 100vw;
+            padding: 12px 0 28px 0;
+            text-align: center;
+            color: #fffa;
+            font-size: 1.1em;
+            letter-spacing: 0.13em;
+            z-index: 11;
+            position: relative;
+        }
+        @media (max-width: 700px) {
+            .slot-machine {
+                min-width: 96vw;
+                padding: 18vw 2vw 16vw 2vw;
+            }
+            .reel-container {
+                width: 28vw;
+                height: 48vw;
+            }
+            .reels-area {
+                gap: 4vw;
+            }
+            .lever-zone {
+                margin-left: 2vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles"></div>
+    <header class="casino-header">
+        <h1 class="casino-title">CASINO SLOT</h1>
+        <div class="casino-subtitle">🎰 本格スロットで遊ぼう！レバーまたはスペースキーでスタート 🎰</div>
+    </header>
+    <main class="main-area">
+        <div class="slot-machine" id="slotMachine">
+            <div class="slot-top-lamps">
+                <span class="lamp red"></span>
+                <span class="lamp yellow"></span>
+                <span class="lamp green"></span>
+                <span class="lamp blue"></span>
+            </div>
+            <div class="side-bar left"></div>
+            <div class="side-bar right"></div>
+            <div class="reels-area">
+                <div class="reels">
+                    <div class="reel-container">
+                        <div class="reel" id="reel1"></div>
+                    </div>
+                    <div class="reel-container">
+                        <div class="reel" id="reel2"></div>
+                    </div>
+                    <div class="reel-container">
+                        <div class="reel" id="reel3"></div>
+                    </div>
+                </div>
+                <div class="lever-zone">
+                    <div class="lever" id="lever" title="レバーを引くとスロット開始！">
+                        <div class="shaft"></div>
+                        <div class="knob"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="winMessage" class="win-message"></div>
+        </div>
+    </main>
+    <footer class="casino-footer">
+        &copy; 2025 2A@CasinoSlot - Powered by GitHub
+    </footer>
+    <!-- 効果音 -->
+    <audio id="se-spin" src="https://cdn.pixabay.com/audio/2022/03/15/audio_116b9e22c8.mp3"></audio>
+    <audio id="se-stop" src="https://cdn.pixabay.com/audio/2022/10/16/audio_12e6cce3d4.mp3"></audio>
+    <audio id="se-win" src="https://cdn.pixabay.com/audio/2022/10/16/audio_12e6cce6a6.mp3"></audio>
+    <audio id="se-jackpot" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124b1d1b5d.mp3"></audio>
+    <audio id="se-coin" src="https://cdn.pixabay.com/audio/2022/02/23/audio_115b9d6a4b.mp3"></audio>
+    <script>
+        // パーティクル背景（簡易サンプル）
+        const particlesEl = document.querySelector('.particles');
+        let particleCount = 22;
+        let html = '';
+        for (let i = 0; i < particleCount; i++) {
+            let left = Math.random() * 100;
+            let top = Math.random() * 100;
+            let size = 8 + Math.random() * 18;
+            let delay = Math.random() * 12;
+            html += `<span style="
+                position:absolute;
+                left:${left}vw;top:${top}vh;
+                width:${size}px;height:${size}px;
+                border-radius:50%;
+                background: radial-gradient(circle at 60% 40%, #ffe082cc 0%, #48a9fe55 80%, #fff0 100%);
+                filter: blur(1.5px);
+                opacity:${0.6 + Math.random()*0.3};
+                animation: particle-move 8s linear ${delay}s infinite alternate;
+            "></span>`;
+        }
+        particlesEl.innerHTML = html;
+        // パーティクルアニメ
+        const style = document.createElement('style');
+        style.innerHTML = `
+        @keyframes particle-move {
+            from { transform: translateY(0) scale(1);}
+            to { transform: translateY(-32vh) scale(1.3);}
+        }
+        `;
+        document.head.appendChild(style);
+
+        // --- ここから下はスロットJS ---
+        const seSpin = document.getElementById("se-spin");
+        const seStop = document.getElementById("se-stop");
+        const seWin = document.getElementById("se-win");
+        const seCoin = document.getElementById("se-coin");
+        const seJackpot = document.getElementById("se-jackpot");
+        const symbols = [
+            "🍒","🍋","🍉","🍇","🔔","7️⃣",
+            "💎","⭐","🍀"
+        ];
+        const reels = [
+            document.getElementById("reel1"),
+            document.getElementById("reel2"),
+            document.getElementById("reel3")
+        ];
+        const winMessage = document.getElementById("winMessage");
+        const symbolHeight = 78;
+        const reelVisibleSymbols = 3;
+        const repeatCount = 8;
+        let animationIds = [null, null, null];
+        let animating = [false, false, false];
+        let spinParams = [
+            {speed: 0.45, offset: 0.0},
+            {speed: 0.36, offset: 0.3},
+            {speed: 0.28, offset: 0.55}
+        ];
+        let step = 0;
+        let isCooling = false;
+        let spacePressed = false;
+        let lastSpaceDownTime = 0;
+        let lastSpaceUpTime = 0;
+        let pointerDown = false;
+        let winWaitPromise = Promise.resolve();
+        let waitingAfterWin = false;
+        let winCooldown = false;
+        let lastInputTime = 0;
+        function isInputAllowed() {
+            const now = Date.now();
+            if (now - lastInputTime < 100) return false;
+            lastInputTime = now;
+            return true;
+        }
+        let isFirstPlay = true;
+        function playCoinIfFirst() {
+            if (isFirstPlay) {
+                seCoin.currentTime = 0;
+                seCoin.play();
+                isFirstPlay = false;
+            }
+        }
+        ["keydown", "mousedown", "touchstart"].forEach(ev => {
+            window.addEventListener(ev, playCoinIfFirst, { once: true });
+        });
+        document.getElementById('lever').addEventListener('mousedown', (e)=>{
+            if (!isInputAllowed()) return;
+            playCoinIfFirst();
+            handleInputDown();
+        });
+        document.getElementById('lever').addEventListener('mouseup', (e)=>{
+            if (!isInputAllowed()) return;
+            handleInputUp();
+        });
+        document.getElementById('lever').addEventListener('touchstart', (e)=>{
+            if (!isInputAllowed()) return;
+            playCoinIfFirst();
+            handleInputDown();
+        });
+        document.getElementById('lever').addEventListener('touchend', (e)=>{
+            if (!isInputAllowed()) return;
+            handleInputUp();
+        });
+        async function handleInputDown() {
+            if (winCooldown) return;
+            if (!spacePressed) {
+                spacePressed = true;
+                lastSpaceDownTime = performance.now();
+            }
+        }
+        async function handleInputUp() {
+            if (winCooldown) return;
+            if (!spacePressed) return;
+            let now = performance.now();
+            let duration = now - lastSpaceDownTime;
+            if(duration < 50) {
+                spacePressed = false;
+                return;
+            }
+            if(isCooling || waitingAfterWin) {
+                spacePressed = false;
+                return;
+            }
+            step = (step + 1) % 4;
+            if(step === 1) {
+                for (let i = 0; i < 3; i++) animating[i] = false;
+                for (let i = 0; i < 3; i++) if (animationIds[i]) cancelAnimationFrame(animationIds[i]);
+                startSpin();
+            } else if(step === 2) {
+                stopLeft();
+            } else if(step === 3) {
+                stopMiddle();
+            } else if(step === 0) {
+                await stopRightWithWinWait();
+                isCooling = true;
+                setTimeout(() => { isCooling = false; }, 50);
+            }
+            lastSpaceUpTime = now;
+            spacePressed = false;
+        }
+        function shuffle(array) {
+            let arr = array.slice();
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+        function fillReel(reel) {
+            reel.innerHTML = "";
+            let arr = shuffle(symbols);
+            let all = [];
+            for (let i = 0; i < repeatCount; i++) all = all.concat(shuffle(arr));
+            // 末尾に可視シンボル数分追加
+            all = all.concat(all.slice(0, reelVisibleSymbols));
+            for (const s of all) {
+                const d = document.createElement("div");
+                d.className = "symbol";
+                d.textContent = s;
+                reel.appendChild(d);
+            }
+        }
+        reels.forEach(fillReel);
+
+        function animateReelReverse(reel, idx, speed = 1.2, offset = 0) {
+            const totalSymbols = reel.children.length;
+            const scrollHeight = symbolHeight * (totalSymbols - reelVisibleSymbols);
+            let start = null;
+            animating[idx] = true;
+            reel.classList.add('spinning');
+            function stepAnim(ts) {
+                if (!animating[idx]) {
+                    reel.classList.remove('spinning');
+                    return;
+                }
+                if (!start) start = ts;
+                let progress = ((ts - start) / (speed * 1000) + offset) % 1;
+                let eased = progress < 0.5
+                    ? 2 * progress * progress
+                    : -1 + (4 - 2 * progress) * progress;
+                let y = scrollHeight - (eased * scrollHeight);
+                reel.style.transform = `translateY(${-y}px)`;
+                animationIds[idx] = requestAnimationFrame(stepAnim);
+            }
+            animationIds[idx] = requestAnimationFrame(stepAnim);
+        }
+
+        // ★ ここが「真ん中で止まる」本格カジノ仕様
+        function stopAndAlign(reel, idx, cb) {
+            animating[idx] = false;
+            if (animationIds[idx]) cancelAnimationFrame(animationIds[idx]);
+            reel.classList.remove('spinning');
+            reel.classList.add('stopping');
+            setTimeout(() => reel.classList.remove('stopping'), 350); // バウンス演出
+            // 現在のY座標取得
+            let currentMatrix = getComputedStyle(reel).transform;
+            let y = 0;
+            if (currentMatrix !== "none") {
+                const match = currentMatrix.match(/matrix.*\((.+)\)/);
+                if (match) {
+                    let vals = match[1].split(', ');
+                    y = parseFloat(vals[5]);
+                }
+            }
+            y = -y;
+            const visibleCount = reelVisibleSymbols;
+            const centerOffsetIndex = Math.floor(visibleCount/2); // 1
+            let firstIdx = Math.round(y / symbolHeight);
+            let centerTargetIdx = firstIdx + centerOffsetIndex;
+            // ぴったり真ん中にcenterTargetIdxが来るように
+            let targetY = centerTargetIdx * symbolHeight - centerOffsetIndex * symbolHeight;
+            let duration = 400;
+            let start = null;
+            function alignStep(ts) {
+                if (!start) start = ts;
+                let progress = Math.min(1, (ts - start) / duration);
+                let eased = 1 - Math.pow(1 - progress, 3);
+                let thisY = y + (targetY - y) * eased;
+                reel.style.transform = `translateY(${-thisY}px)`;
+                if (progress < 1) {
+                    requestAnimationFrame(alignStep);
+                } else {
+                    // 最終調整
+                    reel.style.transform = `translateY(${-targetY}px)`;
+                    if (cb) cb(centerTargetIdx % symbols.length);
+                }
+            }
+            requestAnimationFrame(alignStep);
+        }
+
+        function clearWinEffects() {
+            winMessage.classList.remove('show');
+            winMessage.textContent = "";
+            reels.forEach(reel => reel.parentNode.classList.remove('win'));
+            reels.forEach(reel => {
+                [...reel.children].forEach(sym => sym.classList.remove('win'));
+            });
+        }
+        function showWinEffects(type, winPositions, emoji, multi) {
+            if (multi) {
+                winMessage.textContent = `🌈 ダブルラインボーナス! ${emoji.repeat(3)} 🌈`;
+            } else if (type === 'row') {
+                winMessage.textContent = `🎉 横揃い! ${emoji.repeat(3)} 🎉`;
+            } else if (type === 'diag') {
+                winMessage.textContent = `🎉 ななめ揃い! ${emoji.repeat(3)} 🎉`;
+            } else if (type === 'jackpot') {
+                winMessage.textContent = `🎉 JACKPOT! ${emoji.repeat(3)} 🎉`;
+            }
+            winMessage.classList.add('show');
+            for (let col = 0; col < 3; col++) {
+                reels[col].parentNode.classList.add('win');
+            }
+            for (const [col, row] of winPositions) {
+                reels[col].children[row].classList.add("win");
+            }
+            if (type === 'jackpot') {
+                seJackpot.currentTime = 0;
+                seJackpot.play();
+            } else {
+                seWin.currentTime = 0;
+                seWin.play();
+            }
+        }
+        function getVisibleSymbols() {
+            let indexes = [];
+            for (let col = 0; col < 3; col++) {
+                const reel = reels[col];
+                let currentMatrix = getComputedStyle(reel).transform;
+                let y = 0;
+                if (currentMatrix !== "none") {
+                    const match = currentMatrix.match(/matrix.*\((.+)\)/);
+                    if (match) {
+                        let vals = match[1].split(', ');
+                        y = parseFloat(vals[5]);
+                    }
+                }
+                y = -y;
+                let firstIdx = Math.round(y / symbolHeight);
+                indexes.push(
+                    [firstIdx, firstIdx+1, firstIdx+2]
+                );
+            }
+            let grid = [[],[],[]];
+            for (let row = 0; row < 3; row++) {
+                for (let col = 0; col < 3; col++) {
+                    grid[row][col] = reels[col].children[indexes[col][row]].textContent;
+                }
+            }
+            return { grid, indexes };
+        }
+        function checkWin() {
+            clearWinEffects();
+            const { grid, indexes } = getVisibleSymbols();
+            let lines = [];
+            for (let row=0; row<3; row++) {
+                if (grid[row][0] === grid[row][1] && grid[row][1] === grid[row][2]) {
+                    lines.push({
+                        type: 'row',
+                        emoji: grid[row][0],
+                        winPositions: [
+                            [0, indexes[0][row]],
+                            [1, indexes[1][row]],
+                            [2, indexes[2][row]],
+                        ]
+                    });
+                }
+            }
+            if (grid[0][0] === grid[1][1] && grid[1][1] === grid[2][2]) {
+                lines.push({
+                    type: 'diag',
+                    emoji: grid[0][0],
+                    winPositions: [
+                        [0, indexes[0][0]],
+                        [1, indexes[1][1]],
+                        [2, indexes[2][2]],
+                    ]
+                });
+            }
+            if (grid[0][2] === grid[1][1] && grid[1][1] === grid[2][0]) {
+                lines.push({
+                    type: 'diag',
+                    emoji: grid[0][2],
+                    winPositions: [
+                        [0, indexes[0][2]],
+                        [1, indexes[1][1]],
+                        [2, indexes[2][0]],
+                    ]
+                });
+            }
+            if (grid[1][0] === grid[1][1] && grid[1][1] === grid[1][2]) {
+                lines.push({
+                    type: 'jackpot',
+                    emoji: grid[1][0],
+                    winPositions: [
+                        [0, indexes[0][1]],
+                        [1, indexes[1][1]],
+                        [2, indexes[2][1]],
+                    ]
+                });
+            }
+            if (lines.length === 0) {
+                return false;
+            } else if (lines.length === 1) {
+                const l = lines[0];
+                showWinEffects(l.type, l.winPositions, l.emoji, false);
+                winCooldown = true;
+                setTimeout(() => { winCooldown = false; }, 3000);
+                return true;
+            } else {
+                let allWinPos = [];
+                let emoji = lines[0].emoji;
+                lines.forEach(l => {
+                    allWinPos = allWinPos.concat(l.winPositions);
+                });
+                showWinEffects(lines[0].type, allWinPos, emoji, true);
+                document.body.style.animation = "flash 0.4s";
+                setTimeout(()=>{ document.body.style.animation = ""; }, 400);
+                winCooldown = true;
+                setTimeout(() => { winCooldown = false; }, 3000);
+                return true;
+            }
+        }
+        function startSpin() {
+            clearWinEffects();
+            reels.forEach(fillReel);
+            for (let i = 0; i < 3; i++) {
+                animateReelReverse(reels[i], i, spinParams[i].speed, Math.random());
+            }
+            seSpin.currentTime = 0;
+            seSpin.play();
+        }
+        function stopLeft(cb) {
+            stopAndAlign(reels[0], 0, ()=>{
+                seStop.currentTime = 0; seStop.play();
+                if(cb) cb();
+            });
+        }
+        function stopMiddle(cb) {
+            stopAndAlign(reels[1], 1, ()=>{
+                seStop.currentTime = 0; seStop.play();
+                if(cb) cb();
+            });
+        }
+        async function stopRightWithWinWait(cb) {
+            stopAndAlign(reels[2], 2, async ()=>{
+                seStop.currentTime = 0; seStop.play();
+                const win = checkWin();
+                if(win) {
+                    waitingAfterWin = true;
+                    await new Promise(r=>setTimeout(r, 200));
+                    waitingAfterWin = false;
+                }
+                if(cb) cb();
+            });
+        }
+        window.addEventListener('keydown', (e)=>{
+            if (!isInputAllowed()) return;
+            if ((e.code === "Space" || e.key === " ") && !spacePressed) {
+                playCoinIfFirst();
+                handleInputDown();
+            }
+        });
+        window.addEventListener('keyup', (e)=>{
+            if (!isInputAllowed()) return;
+            if ((e.code === "Space" || e.key === " ")) {
+                handleInputUp();
+            }
+        });
+        const slotMachine = document.getElementById('slotMachine');
+        slotMachine.addEventListener('touchstart', function(e){
+            if (!isInputAllowed()) return;
+            playCoinIfFirst();
+            e.preventDefault();
+            if (!pointerDown) {
+                pointerDown = true;
+                handleInputDown();
+            }
+        }, {passive: false});
+        slotMachine.addEventListener('touchend', function(e){
+            if (!isInputAllowed()) return;
+            e.preventDefault();
+            if (pointerDown) {
+                handleInputUp();
+                pointerDown = false;
+            }
+        }, {passive: false});
+        slotMachine.addEventListener('mousedown', function(e){
+            if (!isInputAllowed()) return;
+            playCoinIfFirst();
+            if (!pointerDown) {
+                pointerDown = true;
+                handleInputDown();
+            }
+        });
+        slotMachine.addEventListener('mouseup', function(e){
+            if (!isInputAllowed()) return;
+            if (pointerDown) {
+                handleInputUp();
+                pointerDown = false;
+            }
+        });
+        window.addEventListener('blur', ()=>{ spacePressed = false; pointerDown = false; });
+        window.addEventListener('click', ()=>window.focus());
+    </script>
+</body>
+</html>
